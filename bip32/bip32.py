@@ -1,4 +1,3 @@
-import base58
 import hashlib
 import hmac
 
@@ -119,7 +118,7 @@ class BIP32:
 
         :param path: A list of integers (index of each depth) or a string with
                      m/x/x'/x notation. (e.g. m/0'/1/2'/2 or m/0H/1/2H/2).
-        :return: The encoded extended pubkey as str.
+        :return: The encoded extended pubkey as bytes.
         """
         if isinstance(path, str):
             path = _deriv_path_str_to_list(path)
@@ -134,14 +133,14 @@ class BIP32:
                                                parent_pubkey,
                                                path[-1], chaincode,
                                                self.network)
-        return base58.b58encode_check(extended_key).decode()
+        return extended_key
 
-    def get_xpub_from_path(self, path):
+    def get_xpub_from_path(self, path) -> bytes:
         """Get an encoded extended pubkey from a derivation path.
 
         :param path: A list of integers (index of each depth) or a string with
                      m/x/x'/x notation. (e.g. m/0'/1/2'/2 or m/0H/1/2H/2).
-        :return: The encoded extended pubkey as str.
+        :return: The encoded extended pubkey as bytes.
         """
         if isinstance(path, str):
             path = _deriv_path_str_to_list(path)
@@ -156,48 +155,46 @@ class BIP32:
                                                parent_pubkey,
                                                path[-1], chaincode,
                                                self.network)
-        return base58.b58encode_check(extended_key).decode()
+        return extended_key
 
-    def get_master_xpriv(self):
+    def get_master_xpriv(self) -> bytes:
         """Get the encoded extended private key of the master private key"""
         extended_key = _serialize_extended_key(self.master_privkey, self.depth,
                                                self.parent_fingerprint,
                                                self.index,
                                                self.master_chaincode,
                                                self.network)
-        return base58.b58encode_check(extended_key).decode()
+        return extended_key
 
-    def get_master_xpub(self):
+    def get_master_xpub(self) -> bytes:
         """Get the encoded extended public key of the master public key"""
         extended_key = _serialize_extended_key(self.master_pubkey, self.depth,
                                                self.parent_fingerprint,
                                                self.index,
                                                self.master_chaincode,
                                                self.network)
-        return base58.b58encode_check(extended_key).decode()
+        return extended_key
 
     @classmethod
-    def from_xpriv(cls, xpriv):
+    def from_xpriv(cls, xpriv: bytes):
         """Get a BIP32 "wallet" out of this xpriv
 
         :param xpriv: (str) The encoded serialized extended private key.
         """
-        extended_key = base58.b58decode_check(xpriv)
         (network, depth, fingerprint,
-         index, chaincode, key) = _unserialize_extended_key(extended_key)
+         index, chaincode, key) = _unserialize_extended_key(xpriv)
         # We need to remove the trailing `0` before the actual private key !!
         return BIP32(chaincode, key[1:], None, fingerprint, depth, index,
                      network)
 
     @classmethod
-    def from_xpub(cls, xpub):
+    def from_xpub(cls, xpub: bytes):
         """Get a BIP32 "wallet" out of this xpub
 
         :param xpub: (str) The encoded serialized extended public key.
         """
-        extended_key = base58.b58decode_check(xpub)
         (network, depth, fingerprint,
-         index, chaincode, key) = _unserialize_extended_key(extended_key)
+         index, chaincode, key) = _unserialize_extended_key(xpub)
         return BIP32(chaincode, None, key, fingerprint, depth, index, network)
 
     @classmethod
