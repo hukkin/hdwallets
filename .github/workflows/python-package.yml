@@ -27,7 +27,7 @@ jobs:
         poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
     - name: Linter (flake8)
       run: |
-        flake8 hdwallet/
+        flake8 hdwallets/
     - name: Test with pytest
       run: |
         pytest

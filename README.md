@@ -5,7 +5,7 @@ A basic implementation of the [bip-0032](https://github.com/bitcoin/bips/blob/ma
 ## Usage
 
 ```python
->>> from hdwallet import BIP32, HARDENED_INDEX
+>>> from hdwallets import BIP32, HARDENED_INDEX
 >>> bip32 = BIP32.from_seed(bytes.fromhex("01"))
 # Specify the derivation path as a list ...
 >>> bip32.get_xpriv_from_path([1, HARDENED_INDEX, 9998])
@@ -31,7 +31,7 @@ b'\x02\x0c\xac\n\xa8\x06\x96C\x8e\x9b\xcf\x83]\x0c\rCm\x06\x1c\xe9T\xealo\xa2\xd
 ## Installation
 
 ```
-pip install hdwallet
+pip install hdwallets
 ```
 
 ## Interface
