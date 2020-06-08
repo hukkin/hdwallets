@@ -8,23 +8,24 @@ name = "hdwallets"
 version = "0.0.8"  # DO NOT EDIT THIS LINE MANUALLY. LET bump2version UTILITY DO IT
 authors = ["hukkinj1 <hukkinj1@users.noreply.github.com>"]
 description = "Python implementation of the BIP32 key derivation scheme"
-repository = "https://github.com/hukkinj1/python-bip32"
+repository = "https://github.com/hukkinj1/hdwallets"
 readme = "README.md"
 license = "BSD-3-Clause"
 classifiers = [
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
 ]
-keywords = ["bip32", "hierarchical", "deterministic", "wallets"]
+keywords = ["bip32", "hierarchical", "deterministic", "wallets", "bitcoin"]
 
 packages = [
     {include = "hdwallets"},
 ]
-#include = ["hdwallets/py.typed"]
+include = ["hdwallets/py.typed"]
 
 #[tool.poetry.urls]
-#"Changelog" = "https://github.com/hukkinj1/python-bip32/blob/master/CHANGELOG.md"
+#"Changelog" = "https://github.com/hukkinj1/hdwallets/blob/master/CHANGELOG.md"
 
 [tool.poetry.dependencies]
 python = "^3.6"
@@ -41,3 +42,4 @@ flake8 = "*"
 flake8-bugbear = "*"
 flake8-builtins = "*"
 flake8-comprehensions = "*"
+mypy = "*"

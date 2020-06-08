@@ -1,7 +1,9 @@
-import ecdsa
 import hashlib
 import hmac
 import re
+from typing import List, Tuple, Optional, Iterable
+
+import ecdsa
 
 
 CURVE_GEN = ecdsa.ecdsa.generator_secp256k1
@@ -24,14 +26,16 @@ class BIP32DerivationError(Exception):
     """We derived an invalid (secret > N or point(secret) is infinity) key!"""
 
 
-def _privkey_to_pubkey(privkey):
+def _privkey_to_pubkey(privkey: bytes) -> bytes:
     """Takes a 32 bytes privkey and returns a 33 bytes secp256k1 pubkey"""
     privkey_obj = ecdsa.SigningKey.from_string(privkey, curve=ecdsa.SECP256k1)
     pubkey_obj = privkey_obj.get_verifying_key()
     return pubkey_obj.to_string("compressed")
 
 
-def _derive_unhardened_private_child(privkey, chaincode, index):
+def _derive_unhardened_private_child(
+    privkey: bytes, chaincode: bytes, index: int
+) -> Tuple[bytes, bytes]:
     """A.k.a CKDpriv, in bip-0032
 
     :param privkey: The parent's private key, as bytes
@@ -40,7 +44,6 @@ def _derive_unhardened_private_child(privkey, chaincode, index):
 
     :return: (child_privatekey, child_chaincode)
     """
-    assert isinstance(privkey, bytes) and isinstance(chaincode, bytes)
     assert not index & HARDENED_INDEX
     pubkey = _privkey_to_pubkey(privkey)
     # payload is the I from the BIP. Index is 32 bits unsigned int, BE.
@@ -66,7 +69,9 @@ def _derive_unhardened_private_child(privkey, chaincode, index):
     return secret, payload[32:]
 
 
-def _derive_hardened_private_child(privkey, chaincode, index):
+def _derive_hardened_private_child(
+    privkey: bytes, chaincode: bytes, index: int
+) -> Tuple[bytes, bytes]:
     """A.k.a CKDpriv, in bip-0032, but the hardened way
 
     :param privkey: The parent's private key, as bytes
@@ -75,7 +80,6 @@ def _derive_hardened_private_child(privkey, chaincode, index):
 
     :return: (child_privatekey, child_chaincode)
     """
-    assert isinstance(privkey, bytes) and isinstance(chaincode, bytes)
     assert index & HARDENED_INDEX
     # payload is the I from the BIP. Index is 32 bits unsigned int, BE.
     payload = hmac.new(chaincode, b'\x00' + privkey + index.to_bytes(4, "big"),
@@ -100,7 +104,9 @@ def _derive_hardened_private_child(privkey, chaincode, index):
     return secret, payload[32:]
 
 
-def _derive_public_child(pubkey, chaincode, index):
+def _derive_public_child(
+    pubkey: bytes, chaincode: bytes, index: int
+) -> Tuple[bytes, bytes]:
     """A.k.a CKDpub, in bip-0032.
 
     :param pubkey: The parent's (compressed) public key, as bytes
@@ -109,7 +115,6 @@ def _derive_public_child(pubkey, chaincode, index):
 
     :return: (child_pubkey, child_chaincode)
     """
-    assert isinstance(pubkey, bytes) and isinstance(chaincode, bytes)
     assert not index & HARDENED_INDEX
     # payload is the I from the BIP. Index is 32 bits unsigned int, BE.
     payload = hmac.new(chaincode, pubkey + index.to_bytes(4, "big"),
@@ -138,14 +143,20 @@ def _derive_public_child(pubkey, chaincode, index):
     return child_pub, payload[32:]
 
 
-def _pubkey_to_fingerprint(pubkey):
+def _pubkey_to_fingerprint(pubkey: bytes) -> bytes:
     rip = hashlib.new("ripemd160")
     rip.update(hashlib.sha256(pubkey).digest())
     return rip.digest()[:4]
 
 
-def _serialize_extended_key(key, depth, parent, index, chaincode,
-                            network="main"):
+def _serialize_extended_key(
+    key: bytes,
+    depth: int,
+    parent: Optional[bytes],
+    index: int,
+    chaincode: bytes,
+    network: str = "main"
+) -> bytes:
     """Serialize an extended private *OR* public key, as spec by bip-0032.
 
     :param key: The public or private key to serialize. Note that if this is
@@ -158,10 +169,10 @@ def _serialize_extended_key(key, depth, parent, index, chaincode,
 
     :return: The serialized extended key.
     """
-    for param in {key, chaincode}:
-        assert isinstance(param, bytes)
-    for param in {depth, index}:
-        assert isinstance(param, int)
+    for bytes_param in {key, chaincode}:
+        assert isinstance(bytes_param, bytes)
+    for int_param in {depth, index}:
+        assert isinstance(int_param, int)
     if parent:
         assert isinstance(parent, bytes)
         if len(parent) == 33:
@@ -190,7 +201,9 @@ def _serialize_extended_key(key, depth, parent, index, chaincode,
     return extended
 
 
-def _unserialize_extended_key(extended_key):
+def _unserialize_extended_key(
+    extended_key: bytes
+) -> Tuple[str, int, bytes, int, bytes, bytes]:
     """Unserialize an extended private *OR* public key, as spec by bip-0032.
 
     :param extended_key: The extended key to unserialize __as bytes__
@@ -198,7 +211,7 @@ def _unserialize_extended_key(extended_key):
     :return: network (str), depth (int), fingerprint (bytes), index (int),
              chaincode (bytes), key (bytes)
     """
-    assert isinstance(extended_key, bytes) and len(extended_key) == 78
+    assert len(extended_key) == 78
     prefix = int.from_bytes(extended_key[:4], "big")
     if prefix in list(ENCODING_PREFIX["main"].values()):
         network = "main"
@@ -211,11 +224,11 @@ def _unserialize_extended_key(extended_key):
     return network, depth, fingerprint, index, chaincode, key
 
 
-def _hardened_index_in_path(path):
+def _hardened_index_in_path(path: Iterable[int]) -> bool:
     return len([i for i in path if i & HARDENED_INDEX]) > 0
 
 
-def _deriv_path_str_to_list(strpath):
+def _deriv_path_str_to_list(strpath: str) -> List[int]:
     """Converts a derivation path as string to a list of integers
        (index of each depth)
 
