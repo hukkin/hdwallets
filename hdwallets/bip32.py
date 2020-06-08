@@ -221,6 +221,6 @@ class BIP32:
 
         :param seed: The seed as bytes.
         """
-        secret = hmac.new("Bitcoin seed".encode(), seed,
+        secret = hmac.new(b"Bitcoin seed", seed,
                           hashlib.sha512).digest()
         return BIP32(secret[32:], secret[:32], network=network)
