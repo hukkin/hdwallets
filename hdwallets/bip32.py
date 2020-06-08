@@ -151,7 +151,7 @@ class BIP32:
                                                self.network)
         return extended_key
 
-    def get_xpub_from_path(self, path) -> bytes:
+    def get_xpub_from_path(self, path: Union[Sequence[int], str]) -> bytes:
         """Get an encoded extended pubkey from a derivation path.
 
         :param path: A list of integers (index of each depth) or a string with
@@ -175,6 +175,7 @@ class BIP32:
 
     def get_master_xpriv(self) -> bytes:
         """Get the encoded extended private key of the master private key"""
+        assert isinstance(self.master_privkey, bytes)
         extended_key = _serialize_extended_key(self.master_privkey, self.depth,
                                                self.parent_fingerprint,
                                                self.index,

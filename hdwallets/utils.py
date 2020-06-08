@@ -1,7 +1,7 @@
 import hashlib
 import hmac
 import re
-from typing import List, Tuple
+from typing import List, Tuple, Optional, Iterable
 
 import ecdsa
 
@@ -149,8 +149,14 @@ def _pubkey_to_fingerprint(pubkey: bytes) -> bytes:
     return rip.digest()[:4]
 
 
-def _serialize_extended_key(key, depth, parent, index, chaincode,
-                            network: str = "main") -> bytes:
+def _serialize_extended_key(
+    key: bytes,
+    depth: int,
+    parent: Optional[bytes],
+    index: int,
+    chaincode: bytes,
+    network: str = "main"
+) -> bytes:
     """Serialize an extended private *OR* public key, as spec by bip-0032.
 
     :param key: The public or private key to serialize. Note that if this is
@@ -163,10 +169,10 @@ def _serialize_extended_key(key, depth, parent, index, chaincode,
 
     :return: The serialized extended key.
     """
-    for param in {key, chaincode}:
-        assert isinstance(param, bytes)
-    for param in {depth, index}:
-        assert isinstance(param, int)
+    for bytes_param in {key, chaincode}:
+        assert isinstance(bytes_param, bytes)
+    for int_param in {depth, index}:
+        assert isinstance(int_param, int)
     if parent:
         assert isinstance(parent, bytes)
         if len(parent) == 33:
@@ -218,7 +224,7 @@ def _unserialize_extended_key(
     return network, depth, fingerprint, index, chaincode, key
 
 
-def _hardened_index_in_path(path) -> bool:
+def _hardened_index_in_path(path: Iterable[int]) -> bool:
     return len([i for i in path if i & HARDENED_INDEX]) > 0
 
 
