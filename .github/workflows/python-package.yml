@@ -25,9 +25,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install "poetry==1.0.8"
         poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
-    - name: Linter (flake8)
+    - name: Linters
+      if: matrix.python-version == '3.6'
       run: |
         flake8 hdwallets/
+        mypy .
     - name: Test with pytest
       run: |
         pytest

@@ -1,5 +1,6 @@
 import hashlib
 import hmac
+from typing import Tuple
 
 from .utils import (
     HARDENED_INDEX, _derive_hardened_private_child,
@@ -11,7 +12,7 @@ from .utils import (
 
 class BIP32:
     def __init__(self, chaincode, privkey=None, pubkey=None, fingerprint=None,
-                 depth=0, index=0, network="main"):
+                 depth=0, index=0, network: str = "main"):
         """
         :param chaincode: The master chaincode, used to derive keys. As bytes.
         :param privkey: The master private key for this index (default 0).
@@ -45,7 +46,7 @@ class BIP32:
         self.index = index
         self.network = network
 
-    def get_extended_privkey_from_path(self, path):
+    def get_extended_privkey_from_path(self, path) -> Tuple[bytes, bytes]:
         """Get an extended privkey from a derivation path.
 
         :param path: A list of integers (index of each depth) or a string with
@@ -64,7 +65,7 @@ class BIP32:
                     _derive_unhardened_private_child(privkey, chaincode, index)
         return chaincode, privkey
 
-    def get_privkey_from_path(self, path):
+    def get_privkey_from_path(self, path) -> bytes:
         """Get a privkey from a derivation path.
 
         :param path: A list of integers (index of each depth) or a string with
@@ -73,7 +74,7 @@ class BIP32:
         """
         return self.get_extended_privkey_from_path(path)[1]
 
-    def get_extended_pubkey_from_path(self, path):
+    def get_extended_pubkey_from_path(self, path) -> Tuple[bytes, bytes]:
         """Get an extended pubkey from a derivation path.
 
         :param path: A list of integers (index of each depth) or a string with
@@ -104,7 +105,7 @@ class BIP32:
                 pubkey = key
         return chaincode, pubkey
 
-    def get_pubkey_from_path(self, path):
+    def get_pubkey_from_path(self, path) -> bytes:
         """Get a privkey from a derivation path.
 
         :param path: A list of integers (index of each depth) or a string with
@@ -113,7 +114,7 @@ class BIP32:
         """
         return self.get_extended_pubkey_from_path(path)[1]
 
-    def get_xpriv_from_path(self, path):
+    def get_xpriv_from_path(self, path) -> bytes:
         """Get an encoded extended privkey from a derivation path.
 
         :param path: A list of integers (index of each depth) or a string with
@@ -176,7 +177,7 @@ class BIP32:
         return extended_key
 
     @classmethod
-    def from_xpriv(cls, xpriv: bytes):
+    def from_xpriv(cls, xpriv: bytes) -> "BIP32":
         """Get a BIP32 "wallet" out of this xpriv
 
         :param xpriv: (str) The encoded serialized extended private key.
@@ -188,7 +189,7 @@ class BIP32:
                      network)
 
     @classmethod
-    def from_xpub(cls, xpub: bytes):
+    def from_xpub(cls, xpub: bytes) -> "BIP32":
         """Get a BIP32 "wallet" out of this xpub
 
         :param xpub: (str) The encoded serialized extended public key.
@@ -198,7 +199,7 @@ class BIP32:
         return BIP32(chaincode, None, key, fingerprint, depth, index, network)
 
     @classmethod
-    def from_seed(cls, seed, network="main"):
+    def from_seed(cls, seed, network="main") -> "BIP32":
         """Get a BIP32 "wallet" out of this seed (maybe after BIP39?)
 
         :param seed: The seed as bytes.
