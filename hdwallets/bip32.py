@@ -193,8 +193,8 @@ class BIP32:
                                                self.network)
         return extended_key
 
-    @classmethod
-    def from_xpriv(cls, xpriv: bytes) -> "BIP32":
+    @staticmethod
+    def from_xpriv(xpriv: bytes) -> "BIP32":
         """Get a BIP32 "wallet" out of this xpriv
 
         :param xpriv: (str) The encoded serialized extended private key.
@@ -205,8 +205,8 @@ class BIP32:
         return BIP32(chaincode, key[1:], None, fingerprint, depth, index,
                      network)
 
-    @classmethod
-    def from_xpub(cls, xpub: bytes) -> "BIP32":
+    @staticmethod
+    def from_xpub(xpub: bytes) -> "BIP32":
         """Get a BIP32 "wallet" out of this xpub
 
         :param xpub: (str) The encoded serialized extended public key.
@@ -215,8 +215,8 @@ class BIP32:
          index, chaincode, key) = _unserialize_extended_key(xpub)
         return BIP32(chaincode, None, key, fingerprint, depth, index, network)
 
-    @classmethod
-    def from_seed(cls, seed: bytes, network: str = "main") -> "BIP32":
+    @staticmethod
+    def from_seed(seed: bytes, network: str = "main") -> "BIP32":
         """Get a BIP32 "wallet" out of this seed (maybe after BIP39?)
 
         :param seed: The seed as bytes.

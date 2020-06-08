@@ -51,20 +51,20 @@ All `path` below are a list of integers representing the index of the key at eac
 
 ##### from_seed(seed)
 
-__*classmethod*__
+__*staticmethod*__
 
 Instantiate from a raw seed (as `bytes`). See [bip-0032's master key
 generation](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#master-key-generation).
 
 ##### from_xpriv(xpriv)
 
-__*classmethod*__
+__*staticmethod*__
 
 Instantiate with an encoded serialized extended private key (as `str`) as master.
 
 ##### from_xpub(xpub)
 
-__*classmethod*__
+__*staticmethod*__
 
 Instantiate with an encoded serialized extended public key (as `str`) as master.
 
