@@ -1,6 +1,11 @@
-# python-bip32
+# hdwallets
 
 A basic implementation of the [bip-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki).
+
+A fork of https://github.com/darosior/python-bip32 with some notable changes:
+- base58 dependency removed. All interfaces input and output raw bytes instead of base58 strings.
+- Replaced https://pypi.org/project/coincurve/ dependency with https://pypi.org/project/ecdsa/
+- Distributes type information (PEP 561)
 
 ## Usage
 
