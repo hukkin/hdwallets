@@ -12,7 +12,7 @@ def test_vector_1():
     assert bip32.get_master_xpriv() == base58.b58decode_check("xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi")
     # Chain m/0H
     assert (bip32.get_xpub_from_path([HARDENED_INDEX]) ==
-base58.b58decode_check("xpub68Gmy5EdvgibQVfPdqkBBCHxA5htiqg55crXYuXoQRKfDBFA1WEjWgP6LHhwBZeNK1VTsfTFUHCdrfp1bgwQ9xv5ski8PX9rL2dZXvgGDnw"))
+            base58.b58decode_check("xpub68Gmy5EdvgibQVfPdqkBBCHxA5htiqg55crXYuXoQRKfDBFA1WEjWgP6LHhwBZeNK1VTsfTFUHCdrfp1bgwQ9xv5ski8PX9rL2dZXvgGDnw"))
     assert (bip32.get_xpriv_from_path([HARDENED_INDEX]) == base58.b58decode_check("xprv9uHRZZhk6KAJC1avXpDAp4MDc3sQKNxDiPvvkX8Br5ngLNv1TxvUxt4cV1rGL5hj6KCesnDYUhd7oWgT11eZG7XnxHrnYeSvkzY7d2bhkJ7"))
     assert (bip32.get_xpub_from_path("m/0H") == bip32.get_xpub_from_path([HARDENED_INDEX]))
     assert (bip32.get_xpriv_from_path("m/0H") == bip32.get_xpriv_from_path([HARDENED_INDEX]))

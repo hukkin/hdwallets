@@ -28,7 +28,7 @@ jobs:
     - name: Linters
       if: matrix.python-version == '3.6'
       run: |
-        flake8 hdwallets/
+        flake8 .
         mypy .
     - name: Test with pytest
       run: |

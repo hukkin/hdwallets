@@ -98,11 +98,11 @@ class BIP32:
         if isinstance(path, str):
             path = _deriv_path_str_to_list(path)
         chaincode, key = self.master_chaincode, self.master_privkey
-        assert isinstance(key, bytes)
         # We'll need the private key at some point anyway, so let's derive
         # everything from private keys.
         if _hardened_index_in_path(path):
             for index in path:
+                assert isinstance(key, bytes)
                 if index & HARDENED_INDEX:
                     key, chaincode = \
                         _derive_hardened_private_child(key, chaincode, index)
@@ -114,6 +114,7 @@ class BIP32:
         # public key derivation.
         else:
             key = self.master_pubkey
+            assert isinstance(key, bytes)
             for index in path:
                 key, chaincode = \
                     _derive_public_child(key, chaincode, index)
