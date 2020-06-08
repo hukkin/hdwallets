@@ -43,3 +43,6 @@ flake8-bugbear = "*"
 flake8-builtins = "*"
 flake8-comprehensions = "*"
 mypy = "*"
+
+# Tools
+bump2version = "*"
