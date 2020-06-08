@@ -50,11 +50,15 @@ def _derive_unhardened_private_child(privkey, chaincode, index):
     payload_left = payload[:32]
     payload_left_int = ecdsa.ecdsa.string_to_int(payload_left)
     if payload_left_int >= CURVE_ORDER:
-        raise BIP32DerivationError("Invalid private key at index {}, try the next one!".format(index))
+        raise BIP32DerivationError(
+            "Invalid private key at index {}, try the next one!".format(index)
+        )
     privkey_int = ecdsa.ecdsa.string_to_int(privkey)
     k_int = (payload_left_int + privkey_int) % CURVE_ORDER
     if k_int == 0:
-        raise BIP32DerivationError("Invalid private key at index {}, try the next one!".format(index))
+        raise BIP32DerivationError(
+            "Invalid private key at index {}, try the next one!".format(index)
+        )
     secret = ecdsa.ecdsa.int_to_string(k_int)
     # Add zero padding
     secret = (32-len(secret))*b"\x00" + secret
@@ -80,11 +84,15 @@ def _derive_hardened_private_child(privkey, chaincode, index):
     payload_left = payload[:32]
     payload_left_int = ecdsa.ecdsa.string_to_int(payload_left)
     if payload_left_int >= CURVE_ORDER:
-        raise BIP32DerivationError("Invalid private key at index {}, try the next one!".format(index))
+        raise BIP32DerivationError(
+            "Invalid private key at index {}, try the next one!".format(index)
+        )
     privkey_int = ecdsa.ecdsa.string_to_int(privkey)
     k_int = (payload_left_int + privkey_int) % CURVE_ORDER
     if k_int == 0:
-        raise BIP32DerivationError("Invalid private key at index {}, try the next one!".format(index))
+        raise BIP32DerivationError(
+            "Invalid private key at index {}, try the next one!".format(index)
+        )
     secret = ecdsa.ecdsa.int_to_string(k_int)
     # Add zero padding
     secret = (32 - len(secret)) * b"\x00" + secret
@@ -110,13 +118,22 @@ def _derive_public_child(pubkey, chaincode, index):
     payload_left = payload[:32]
     payload_left_int = ecdsa.ecdsa.string_to_int(payload_left)
     if payload_left_int >= CURVE_ORDER:
-        raise BIP32DerivationError("Invalid private key at index {}, try the next one!".format(index))
-    point = payload_left_int * CURVE_GEN + ecdsa.VerifyingKey.from_string(pubkey, curve=ecdsa.SECP256k1).pubkey.point
+        raise BIP32DerivationError(
+            "Invalid private key at index {}, try the next one!".format(index)
+        )
+    pubkey_point = ecdsa.VerifyingKey.from_string(
+        pubkey, curve=ecdsa.SECP256k1
+    ).pubkey.point
+    point = payload_left_int * CURVE_GEN + pubkey_point
     if point == ecdsa.ellipticcurve.INFINITY:
-        raise BIP32DerivationError("Invalid public key at index {}, try the next one!".format(index))
+        raise BIP32DerivationError(
+            "Invalid public key at index {}, try the next one!".format(index)
+        )
 
     # Retrieve public key based on curve point
-    child_pub = ecdsa.VerifyingKey.from_public_point(point, curve=ecdsa.SECP256k1).to_string("compressed")
+    child_pub = ecdsa.VerifyingKey.from_public_point(
+        point, curve=ecdsa.SECP256k1
+    ).to_string("compressed")
 
     return child_pub, payload[32:]
 
