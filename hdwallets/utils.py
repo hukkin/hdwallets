@@ -169,12 +169,7 @@ def _serialize_extended_key(
 
     :return: The serialized extended key.
     """
-    for bytes_param in {key, chaincode}:
-        assert isinstance(bytes_param, bytes)
-    for int_param in {depth, index}:
-        assert isinstance(int_param, int)
     if parent:
-        assert isinstance(parent, bytes)
         if len(parent) == 33:
             fingerprint = _pubkey_to_fingerprint(parent)
         elif len(parent) == 4:

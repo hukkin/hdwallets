@@ -38,14 +38,9 @@ class BIP32:
                       need this for serialization.
         :param network: Either "main" or "test".
         """
-        assert isinstance(chaincode, bytes)
-        assert privkey is not None or pubkey is not None
-        if privkey is not None:
-            assert isinstance(privkey, bytes)
-        if pubkey is not None:
-            assert isinstance(pubkey, bytes)
-        else:
-            assert isinstance(privkey, bytes)
+        if pubkey is None:
+            if privkey is None:
+                raise ValueError("Must provide privkey or pubkey")
             pubkey = _privkey_to_pubkey(privkey)
         self.master_chaincode = chaincode
         self.master_privkey = privkey
