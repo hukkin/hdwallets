@@ -1,0 +1,43 @@
+[build-system]
+requires = ["poetry>=1.0.8"]
+build-backend = "poetry.masonry.api"
+
+
+[tool.poetry]
+name = "hdwallet"
+version = "0.0.8"  # DO NOT EDIT THIS LINE MANUALLY. LET bump2version UTILITY DO IT
+authors = ["hukkinj1 <hukkinj1@users.noreply.github.com>"]
+description = "Python implementation of the BIP32 key derivation scheme"
+repository = "https://github.com/hukkinj1/python-bip32"
+readme = "README.md"
+license = "BSD-3-Clause"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["bip32", "hierarchical", "deterministic", "wallets"]
+
+packages = [
+    {include = "hdwallet"},
+]
+#include = ["hdwallet/py.typed"]
+
+#[tool.poetry.urls]
+#"Changelog" = "https://github.com/hukkinj1/python-bip32/blob/master/CHANGELOG.md"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+ecdsa = ">=0.14.0, <0.16.0"
+
+[tool.poetry.dev-dependencies]
+# Tests
+pytest = "*"
+pytest-randomly = "*"
+base58 = ">=2.0.0"
+
+# Linting
+flake8 = "*"
+flake8-bugbear = "*"
+flake8-builtins = "*"
+flake8-comprehensions = "*"

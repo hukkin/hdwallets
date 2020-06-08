@@ -1,7 +1,7 @@
 import os
 
 import base58
-from bip32 import BIP32, HARDENED_INDEX
+from hdwallet import BIP32, HARDENED_INDEX
 
 
 def test_vector_1():
