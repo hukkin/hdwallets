@@ -5,9 +5,8 @@ from typing import Sequence, Tuple, Union
 from ._utils import (
     HARDENED_INDEX,
     _deriv_path_str_to_list,
-    _derive_hardened_private_child,
+    _derive_private_child,
     _derive_public_child,
-    _derive_unhardened_private_child,
     _hardened_index_in_path,
     _privkey_to_pubkey,
     _serialize_extended_key,
@@ -69,14 +68,10 @@ class BIP32:
         chaincode, privkey = self.master_chaincode, self.master_privkey
         assert isinstance(privkey, bytes)
         for index in path:
-            if index & HARDENED_INDEX:
-                privkey, chaincode = _derive_hardened_private_child(
-                    privkey, chaincode, index
-                )
-            else:
-                privkey, chaincode = _derive_unhardened_private_child(
-                    privkey, chaincode, index
-                )
+            is_hardened = bool(index & HARDENED_INDEX)
+            privkey, chaincode = _derive_private_child(
+                privkey, chaincode, index, hardened=is_hardened
+            )
         return chaincode, privkey
 
     def get_privkey_from_path(self, path: Union[Sequence[int], str]) -> bytes:
@@ -105,14 +100,10 @@ class BIP32:
         if _hardened_index_in_path(path):
             for index in path:
                 assert isinstance(key, bytes)
-                if index & HARDENED_INDEX:
-                    key, chaincode = _derive_hardened_private_child(
-                        key, chaincode, index
-                    )
-                else:
-                    key, chaincode = _derive_unhardened_private_child(
-                        key, chaincode, index
-                    )
+                is_hardened = bool(index & HARDENED_INDEX)
+                key, chaincode = _derive_private_child(
+                    key, chaincode, index, hardened=is_hardened
+                )
                 pubkey = _privkey_to_pubkey(key)
         # We won't need private keys for the whole path, so let's only use
         # public key derivation.

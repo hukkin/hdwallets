@@ -26,8 +26,8 @@ def _privkey_to_pubkey(privkey: bytes) -> bytes:
     return pubkey_obj.to_string("compressed")
 
 
-def _derive_unhardened_private_child(
-    privkey: bytes, chaincode: bytes, index: int
+def _derive_private_child(
+    privkey: bytes, chaincode: bytes, index: int, *, hardened: bool
 ) -> Tuple[bytes, bytes]:
     """A.k.a CKDpriv, in bip-0032.
 
@@ -37,45 +37,15 @@ def _derive_unhardened_private_child(
 
     :return: (child_privatekey, child_chaincode)
     """
-    assert not index & HARDENED_INDEX
-    pubkey = _privkey_to_pubkey(privkey)
+    if hardened:
+        assert index & HARDENED_INDEX
+        payload_key = b"\x00" + privkey
+    else:
+        assert not index & HARDENED_INDEX
+        payload_key = _privkey_to_pubkey(privkey)
     # payload is the I from the BIP. Index is 32 bits unsigned int, BE.
     payload = hmac.new(
-        chaincode, pubkey + index.to_bytes(4, "big"), hashlib.sha512
-    ).digest()
-
-    payload_left = payload[:32]
-    payload_left_int = int.from_bytes(payload_left, "big")
-    if payload_left_int >= CURVE_ORDER:
-        raise BIP32DerivationError(
-            f"Invalid private key at index {index}, try the next one!"
-        )
-    privkey_int = int.from_bytes(privkey, "big")
-    k_int = (payload_left_int + privkey_int) % CURVE_ORDER
-    if k_int == 0:
-        raise BIP32DerivationError(
-            f"Invalid private key at index {index}, try the next one!"
-        )
-    secret = k_int.to_bytes(32, "big")
-
-    return secret, payload[32:]
-
-
-def _derive_hardened_private_child(
-    privkey: bytes, chaincode: bytes, index: int
-) -> Tuple[bytes, bytes]:
-    """A.k.a CKDpriv, in bip-0032, but the hardened way.
-
-    :param privkey: The parent's private key, as bytes
-    :param chaincode: The parent's chaincode, as bytes
-    :param index: The index of the node to derive, as int
-
-    :return: (child_privatekey, child_chaincode)
-    """
-    assert index & HARDENED_INDEX
-    # payload is the I from the BIP. Index is 32 bits unsigned int, BE.
-    payload = hmac.new(
-        chaincode, b"\x00" + privkey + index.to_bytes(4, "big"), hashlib.sha512
+        chaincode, payload_key + index.to_bytes(4, "big"), hashlib.sha512
     ).digest()
 
     payload_left = payload[:32]
