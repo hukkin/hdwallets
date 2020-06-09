@@ -208,7 +208,7 @@ def _unserialize_extended_key(
     """
     assert len(extended_key) == 78
     prefix = int.from_bytes(extended_key[:4], "big")
-    if prefix in list(ENCODING_PREFIX["main"].values()):
+    if prefix in ENCODING_PREFIX["main"].values():
         network = "main"
     else:
         network = "test"
@@ -220,7 +220,10 @@ def _unserialize_extended_key(
 
 
 def _hardened_index_in_path(path: Iterable[int]) -> bool:
-    return len([i for i in path if i & HARDENED_INDEX]) > 0
+    for i in path:
+        if i & HARDENED_INDEX:
+            return True
+    return False
 
 
 def _deriv_path_str_to_list(strpath: str) -> List[int]:
