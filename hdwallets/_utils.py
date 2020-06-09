@@ -54,13 +54,13 @@ def _derive_unhardened_private_child(
     payload_left_int = int.from_bytes(payload_left, "big")
     if payload_left_int >= CURVE_ORDER:
         raise BIP32DerivationError(
-            "Invalid private key at index {}, try the next one!".format(index)
+            f"Invalid private key at index {index}, try the next one!"
         )
     privkey_int = int.from_bytes(privkey, "big")
     k_int = (payload_left_int + privkey_int) % CURVE_ORDER
     if k_int == 0:
         raise BIP32DerivationError(
-            "Invalid private key at index {}, try the next one!".format(index)
+            f"Invalid private key at index {index}, try the next one!"
         )
     secret = k_int.to_bytes(32, "big")
 
@@ -87,13 +87,13 @@ def _derive_hardened_private_child(
     payload_left_int = int.from_bytes(payload_left, "big")
     if payload_left_int >= CURVE_ORDER:
         raise BIP32DerivationError(
-            "Invalid private key at index {}, try the next one!".format(index)
+            f"Invalid private key at index {index}, try the next one!"
         )
     privkey_int = int.from_bytes(privkey, "big")
     k_int = (payload_left_int + privkey_int) % CURVE_ORDER
     if k_int == 0:
         raise BIP32DerivationError(
-            "Invalid private key at index {}, try the next one!".format(index)
+            f"Invalid private key at index {index}, try the next one!"
         )
     secret = k_int.to_bytes(32, "big")
 
@@ -120,7 +120,7 @@ def _derive_public_child(
     payload_left_int = int.from_bytes(payload_left, "big")
     if payload_left_int >= CURVE_ORDER:
         raise BIP32DerivationError(
-            "Invalid private key at index {}, try the next one!".format(index)
+            f"Invalid private key at index {index}, try the next one!"
         )
     pubkey_point = ecdsa.VerifyingKey.from_string(
         pubkey, curve=ecdsa.SECP256k1
@@ -128,7 +128,7 @@ def _derive_public_child(
     point = payload_left_int * CURVE_GEN + pubkey_point
     if point == ecdsa.ellipticcurve.INFINITY:
         raise BIP32DerivationError(
-            "Invalid public key at index {}, try the next one!".format(index)
+            f"Invalid public key at index {index}, try the next one!"
         )
 
     # Retrieve public key based on curve point
@@ -216,10 +216,7 @@ def _unserialize_extended_key(
 
 
 def _hardened_index_in_path(path: Iterable[int]) -> bool:
-    for i in path:
-        if i & HARDENED_INDEX:
-            return True
-    return False
+    return any(i & HARDENED_INDEX for i in path)
 
 
 def _deriv_path_str_to_list(strpath: str) -> List[int]:
