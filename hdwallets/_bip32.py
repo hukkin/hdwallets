@@ -2,7 +2,7 @@ import hashlib
 import hmac
 from typing import Tuple, Union, Sequence
 
-from .utils import (
+from ._utils import (
     HARDENED_INDEX, _derive_hardened_private_child,
     _derive_unhardened_private_child, _derive_public_child,
     _serialize_extended_key, _unserialize_extended_key,
