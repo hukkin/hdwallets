@@ -38,11 +38,15 @@ pytest-randomly = "*"
 base58 = ">=2.0.0"
 
 # Linting
+isort = "*"
+black = { version = "*", allow-prereleases = true }
 flake8 = "*"
 flake8-bugbear = "*"
 flake8-builtins = "*"
 flake8-comprehensions = "*"
 mypy = "*"
+docformatter = "*"
 
 # Tools
 bump2version = "*"
+pre-commit = "*"

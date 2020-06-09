@@ -29,6 +29,9 @@ jobs:
       run: |
         flake8 .
         mypy .
+        isort --check-only -rc .
+        black --check .
+        docformatter --recursive --check hdwallets/ tests/
     - name: Test with pytest
       run: |
         pytest

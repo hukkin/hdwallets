@@ -1,10 +1,12 @@
 import os
 
 import base58
+
 from hdwallets import BIP32, HARDENED_INDEX
 
 
 def test_vector_1():
+    # fmt: off
     seed = bytes.fromhex("000102030405060708090a0b0c0d0e0f")
     bip32 = BIP32.from_seed(seed)
     # Chain m
@@ -36,9 +38,11 @@ def test_vector_1():
     assert (bip32.get_xpriv_from_path([HARDENED_INDEX, 1, HARDENED_INDEX + 2, 2, 1000000000]) == base58.b58decode_check("xprvA41z7zogVVwxVSgdKUHDy1SKmdb533PjDz7J6N6mV6uS3ze1ai8FHa8kmHScGpWmj4WggLyQjgPie1rFSruoUihUZREPSL39UNdE3BBDu76"))
     assert (bip32.get_xpub_from_path("m/0H/1/2H/2/1000000000") == bip32.get_xpub_from_path([HARDENED_INDEX, 1, HARDENED_INDEX + 2, 2, 1000000000]))
     assert (bip32.get_xpriv_from_path("m/0H/1/2H/2/1000000000") == bip32.get_xpriv_from_path([HARDENED_INDEX, 1, HARDENED_INDEX + 2, 2, 1000000000]))
+    # fmt: on
 
 
 def test_vector_2():
+    # fmt: off
     seed = bytes.fromhex("fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542")
     bip32 = BIP32.from_seed(seed)
     # Chain m
@@ -69,9 +73,11 @@ def test_vector_2():
     assert (bip32.get_xpriv_from_path([0, HARDENED_INDEX + 2147483647, 1, HARDENED_INDEX + 2147483646, 2]) == base58.b58decode_check("xprvA2nrNbFZABcdryreWet9Ea4LvTJcGsqrMzxHx98MMrotbir7yrKCEXw7nadnHM8Dq38EGfSh6dqA9QWTyefMLEcBYJUuekgW4BYPJcr9E7j"))
     assert (bip32.get_xpub_from_path("m/0/2147483647H/1/2147483646H/2") == bip32.get_xpub_from_path([0, HARDENED_INDEX + 2147483647, 1, HARDENED_INDEX + 2147483646, 2]))
     assert (bip32.get_xpriv_from_path("m/0/2147483647H/1/2147483646H/2") == bip32.get_xpriv_from_path([0, HARDENED_INDEX + 2147483647, 1, HARDENED_INDEX + 2147483646, 2]))
+    # fmt: on
 
 
 def test_vector_3():
+    # fmt: off
     seed = bytes.fromhex("4b381541583be4423346c643850da4b320e46a87ae3d2a4e6da11eba819cd4acba45d239319ac14f863b8d5ab5a0d0c64d2e8a1e7d1457df2e5a3c51c73235be")
     bip32 = BIP32.from_seed(seed)
     # Chain m
@@ -84,9 +90,11 @@ def test_vector_3():
     assert (bip32.get_xpriv_from_path([HARDENED_INDEX]) == base58.b58decode_check("xprv9uPDJpEQgRQfDcW7BkF7eTya6RPxXeJCqCJGHuCJ4GiRVLzkTXBAJMu2qaMWPrS7AANYqdq6vcBcBUdJCVVFceUvJFjaPdGZ2y9WACViL4L"))
     assert (bip32.get_xpub_from_path("m/0H") == bip32.get_xpub_from_path([HARDENED_INDEX]))
     assert (bip32.get_xpriv_from_path("m/0H") == bip32.get_xpriv_from_path([HARDENED_INDEX]))
+    # fmt: on
 
 
 def test_sanity_tests():
+    # fmt: off
     seed = bytes.fromhex("1077a46dc8545d372f22d9e110ae6c5c2bf7620fe9c4c911f5404d112233e1aa270567dd3554092e051ba3ba86c303590b0309116ac89964ff284db2219d7511")
     first_bip32 = BIP32.from_seed(seed)
     sec_bip32 = BIP32.from_xpriv(base58.b58decode_check("xprv9s21ZrQH143K3o4KUs47P2x9afhH31ekMo2foNTYwrU9wwZ8g5EatR9bn6YmCacdvnHWMnPFUqieQrnunrzuF5UfgGbhbEW43zRnhpPDBUL"))
@@ -145,3 +153,4 @@ def test_sanity_tests():
                            "main").get_master_xpub().startswith(b"\x04\x88\xB2\x1E")
     assert BIP32.from_seed(os.urandom(32),
                            "main").get_master_xpriv().startswith(b"\x04\x88\xAD\xE4")
+    # fmt: on

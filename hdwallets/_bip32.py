@@ -1,12 +1,17 @@
 import hashlib
 import hmac
-from typing import Tuple, Union, Sequence
+from typing import Sequence, Tuple, Union
 
 from ._utils import (
-    HARDENED_INDEX, _derive_hardened_private_child,
-    _derive_unhardened_private_child, _derive_public_child,
-    _serialize_extended_key, _unserialize_extended_key,
-    _hardened_index_in_path, _privkey_to_pubkey, _deriv_path_str_to_list
+    HARDENED_INDEX,
+    _deriv_path_str_to_list,
+    _derive_hardened_private_child,
+    _derive_public_child,
+    _derive_unhardened_private_child,
+    _hardened_index_in_path,
+    _privkey_to_pubkey,
+    _serialize_extended_key,
+    _unserialize_extended_key,
 )
 
 
@@ -19,7 +24,7 @@ class BIP32:
         fingerprint: bytes = None,
         depth: int = 0,
         index: int = 0,
-        network: str = "main"
+        network: str = "main",
     ):
         """
         :param chaincode: The master chaincode, used to derive keys. As bytes.
@@ -65,11 +70,13 @@ class BIP32:
         assert isinstance(privkey, bytes)
         for index in path:
             if index & HARDENED_INDEX:
-                privkey, chaincode = \
-                    _derive_hardened_private_child(privkey, chaincode, index)
+                privkey, chaincode = _derive_hardened_private_child(
+                    privkey, chaincode, index
+                )
             else:
-                privkey, chaincode = \
-                    _derive_unhardened_private_child(privkey, chaincode, index)
+                privkey, chaincode = _derive_unhardened_private_child(
+                    privkey, chaincode, index
+                )
         return chaincode, privkey
 
     def get_privkey_from_path(self, path: Union[Sequence[int], str]) -> bytes:
@@ -99,11 +106,13 @@ class BIP32:
             for index in path:
                 assert isinstance(key, bytes)
                 if index & HARDENED_INDEX:
-                    key, chaincode = \
-                        _derive_hardened_private_child(key, chaincode, index)
+                    key, chaincode = _derive_hardened_private_child(
+                        key, chaincode, index
+                    )
                 else:
-                    key, chaincode = \
-                        _derive_unhardened_private_child(key, chaincode, index)
+                    key, chaincode = _derive_unhardened_private_child(
+                        key, chaincode, index
+                    )
                 pubkey = _privkey_to_pubkey(key)
         # We won't need private keys for the whole path, so let's only use
         # public key derivation.
@@ -111,8 +120,7 @@ class BIP32:
             key = self.master_pubkey
             assert isinstance(key, bytes)
             for index in path:
-                key, chaincode = \
-                    _derive_public_child(key, chaincode, index)
+                key, chaincode = _derive_public_child(key, chaincode, index)
                 pubkey = key
         return chaincode, pubkey
 
@@ -141,10 +149,14 @@ class BIP32:
         else:
             parent_pubkey = self.get_pubkey_from_path(path[:-1])
         chaincode, privkey = self.get_extended_privkey_from_path(path)
-        extended_key = _serialize_extended_key(privkey, self.depth + len(path),
-                                               parent_pubkey,
-                                               path[-1], chaincode,
-                                               self.network)
+        extended_key = _serialize_extended_key(
+            privkey,
+            self.depth + len(path),
+            parent_pubkey,
+            path[-1],
+            chaincode,
+            self.network,
+        )
         return extended_key
 
     def get_xpub_from_path(self, path: Union[Sequence[int], str]) -> bytes:
@@ -163,51 +175,72 @@ class BIP32:
         else:
             parent_pubkey = self.get_pubkey_from_path(path[:-1])
         chaincode, pubkey = self.get_extended_pubkey_from_path(path)
-        extended_key = _serialize_extended_key(pubkey, self.depth + len(path),
-                                               parent_pubkey,
-                                               path[-1], chaincode,
-                                               self.network)
+        extended_key = _serialize_extended_key(
+            pubkey,
+            self.depth + len(path),
+            parent_pubkey,
+            path[-1],
+            chaincode,
+            self.network,
+        )
         return extended_key
 
     def get_master_xpriv(self) -> bytes:
-        """Get the encoded extended private key of the master private key"""
+        """Get the encoded extended private key of the master private key."""
         assert isinstance(self.master_privkey, bytes)
-        extended_key = _serialize_extended_key(self.master_privkey, self.depth,
-                                               self.parent_fingerprint,
-                                               self.index,
-                                               self.master_chaincode,
-                                               self.network)
+        extended_key = _serialize_extended_key(
+            self.master_privkey,
+            self.depth,
+            self.parent_fingerprint,
+            self.index,
+            self.master_chaincode,
+            self.network,
+        )
         return extended_key
 
     def get_master_xpub(self) -> bytes:
-        """Get the encoded extended public key of the master public key"""
-        extended_key = _serialize_extended_key(self.master_pubkey, self.depth,
-                                               self.parent_fingerprint,
-                                               self.index,
-                                               self.master_chaincode,
-                                               self.network)
+        """Get the encoded extended public key of the master public key."""
+        extended_key = _serialize_extended_key(
+            self.master_pubkey,
+            self.depth,
+            self.parent_fingerprint,
+            self.index,
+            self.master_chaincode,
+            self.network,
+        )
         return extended_key
 
     @staticmethod
     def from_xpriv(xpriv: bytes) -> "BIP32":
-        """Get a BIP32 "wallet" out of this xpriv
+        """Get a BIP32 "wallet" out of this xpriv.
 
         :param xpriv: (str) The encoded serialized extended private key.
         """
-        (network, depth, fingerprint,
-         index, chaincode, key) = _unserialize_extended_key(xpriv)
+        (
+            network,
+            depth,
+            fingerprint,
+            index,
+            chaincode,
+            key,
+        ) = _unserialize_extended_key(xpriv)
         # We need to remove the trailing `0` before the actual private key !!
-        return BIP32(chaincode, key[1:], None, fingerprint, depth, index,
-                     network)
+        return BIP32(chaincode, key[1:], None, fingerprint, depth, index, network)
 
     @staticmethod
     def from_xpub(xpub: bytes) -> "BIP32":
-        """Get a BIP32 "wallet" out of this xpub
+        """Get a BIP32 "wallet" out of this xpub.
 
         :param xpub: (str) The encoded serialized extended public key.
         """
-        (network, depth, fingerprint,
-         index, chaincode, key) = _unserialize_extended_key(xpub)
+        (
+            network,
+            depth,
+            fingerprint,
+            index,
+            chaincode,
+            key,
+        ) = _unserialize_extended_key(xpub)
         return BIP32(chaincode, None, key, fingerprint, depth, index, network)
 
     @staticmethod
@@ -216,6 +249,5 @@ class BIP32:
 
         :param seed: The seed as bytes.
         """
-        secret = hmac.new(b"Bitcoin seed", seed,
-                          hashlib.sha512).digest()
+        secret = hmac.new(b"Bitcoin seed", seed, hashlib.sha512).digest()
         return BIP32(secret[32:], secret[:32], network=network)
