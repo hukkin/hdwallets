@@ -51,20 +51,18 @@ def _derive_unhardened_private_child(
                        hashlib.sha512).digest()
 
     payload_left = payload[:32]
-    payload_left_int = ecdsa.ecdsa.string_to_int(payload_left)
+    payload_left_int = int.from_bytes(payload_left, "big")
     if payload_left_int >= CURVE_ORDER:
         raise BIP32DerivationError(
             "Invalid private key at index {}, try the next one!".format(index)
         )
-    privkey_int = ecdsa.ecdsa.string_to_int(privkey)
+    privkey_int = int.from_bytes(privkey, "big")
     k_int = (payload_left_int + privkey_int) % CURVE_ORDER
     if k_int == 0:
         raise BIP32DerivationError(
             "Invalid private key at index {}, try the next one!".format(index)
         )
-    secret = ecdsa.ecdsa.int_to_string(k_int)
-    # Add zero padding
-    secret = (32-len(secret))*b"\x00" + secret
+    secret = k_int.to_bytes(32, "big")
 
     return secret, payload[32:]
 
@@ -86,20 +84,18 @@ def _derive_hardened_private_child(
                        hashlib.sha512).digest()
 
     payload_left = payload[:32]
-    payload_left_int = ecdsa.ecdsa.string_to_int(payload_left)
+    payload_left_int = int.from_bytes(payload_left, "big")
     if payload_left_int >= CURVE_ORDER:
         raise BIP32DerivationError(
             "Invalid private key at index {}, try the next one!".format(index)
         )
-    privkey_int = ecdsa.ecdsa.string_to_int(privkey)
+    privkey_int = int.from_bytes(privkey, "big")
     k_int = (payload_left_int + privkey_int) % CURVE_ORDER
     if k_int == 0:
         raise BIP32DerivationError(
             "Invalid private key at index {}, try the next one!".format(index)
         )
-    secret = ecdsa.ecdsa.int_to_string(k_int)
-    # Add zero padding
-    secret = (32 - len(secret)) * b"\x00" + secret
+    secret = k_int.to_bytes(32, "big")
 
     return secret, payload[32:]
 
@@ -121,7 +117,7 @@ def _derive_public_child(
                        hashlib.sha512).digest()
 
     payload_left = payload[:32]
-    payload_left_int = ecdsa.ecdsa.string_to_int(payload_left)
+    payload_left_int = int.from_bytes(payload_left, "big")
     if payload_left_int >= CURVE_ORDER:
         raise BIP32DerivationError(
             "Invalid private key at index {}, try the next one!".format(index)
