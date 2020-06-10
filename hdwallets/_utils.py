@@ -27,7 +27,7 @@ def _privkey_to_pubkey(privkey: bytes) -> bytes:
 
 
 def _derive_private_child(
-    privkey: bytes, chaincode: bytes, index: int, *, hardened: bool
+    privkey: bytes, chaincode: bytes, index: int
 ) -> Tuple[bytes, bytes]:
     """A.k.a CKDpriv, in bip-0032.
 
@@ -37,11 +37,10 @@ def _derive_private_child(
 
     :return: (child_privatekey, child_chaincode)
     """
+    hardened = bool(index & HARDENED_INDEX)
     if hardened:
-        assert index & HARDENED_INDEX
         payload_key = b"\x00" + privkey
     else:
-        assert not index & HARDENED_INDEX
         payload_key = _privkey_to_pubkey(privkey)
     # payload is the I from the BIP. Index is 32 bits unsigned int, BE.
     payload = hmac.new(
