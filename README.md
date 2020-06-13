@@ -1,4 +1,5 @@
 [![PyPI version](https://badge.fury.io/py/hdwallets.svg)](https://badge.fury.io/py/hdwallets)
+[![Build Status](https://github.com/hukkinj1/hdwallets/workflows/Tests/badge.svg?branch=master)](https://github.com/hukkinj1/hdwallets/actions?query=workflow%3ATests+branch%3Amaster+event%3Apush)
 # hdwallets
 
 A basic implementation of the [BIP32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) specification for hierarchical deterministic wallets.
