@@ -105,9 +105,9 @@ def _derive_public_child(
 
 
 def _pubkey_to_fingerprint(pubkey: bytes) -> bytes:
-    rip = hashlib.new("ripemd160")
-    rip.update(hashlib.sha256(pubkey).digest())
-    return rip.digest()[:4]
+    sha_digest = hashlib.new("sha256", pubkey).digest()
+    ripe_digest = hashlib.new("ripemd160", sha_digest).digest()
+    return ripe_digest[:4]
 
 
 def _serialize_extended_key(
