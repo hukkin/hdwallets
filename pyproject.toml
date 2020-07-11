@@ -33,7 +33,7 @@ ecdsa = ">=0.14.0, <0.16.0"
 
 [tool.poetry.dev-dependencies]
 # Tests
-pytest = "*"
+pytest = ">=6.0.0rc1"
 pytest-randomly = "*"
 base58 = ">=2.0.0"
 
@@ -64,3 +64,8 @@ known_first_party = ["hdwallets", "tests"]
 
 # Settings for Black compatibility
 profile = "black"
+
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers"
+xfail_strict = true
