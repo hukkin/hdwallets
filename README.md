@@ -1,17 +1,20 @@
-[![PyPI version](https://badge.fury.io/py/hdwallets.svg)](https://badge.fury.io/py/hdwallets)
-[![Build Status](https://github.com/hukkinj1/hdwallets/workflows/Tests/badge.svg?branch=master)](https://github.com/hukkinj1/hdwallets/actions?query=workflow%3ATests+branch%3Amaster+event%3Apush)
+[![PyPI version](https://badge.fury.io/py/hdwallets.svg)](<https://badge.fury.io/py/hdwallets>)
+[![Build Status](https://github.com/hukkinj1/hdwallets/workflows/Tests/badge.svg?branch=master)](<https://github.com/hukkinj1/hdwallets/actions?query=workflow%3ATests+branch%3Amaster+event%3Apush>)
+
 # hdwallets
 
-A basic implementation of the [BIP32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) specification for hierarchical deterministic wallets.
+A basic implementation of the [BIP32](<https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki>) specification for hierarchical deterministic wallets.
 
 A fork of https://github.com/darosior/python-bip32 with some notable changes:
-- [`base58`](https://pypi.org/project/base58/) dependency removed. All interfaces input and output raw bytes instead of base58 strings.
-- Replaced [`coincurve`](https://pypi.org/project/coincurve/) dependency with [`ecdsa`](https://pypi.org/project/ecdsa/)
-- Distributes type information ([PEP 561](https://www.python.org/dev/peps/pep-0561/))
+
+- [`base58`](<https://pypi.org/project/base58/>) dependency removed.
+  All interfaces input and output raw bytes instead of base58 strings.
+- Replaced [`coincurve`](<https://pypi.org/project/coincurve/>) dependency with [`ecdsa`](<https://pypi.org/project/ecdsa/>)
+- Distributes type information ([PEP 561](<https://www.python.org/dev/peps/pep-0561/>))
 
 ## Usage
 
-```python
+~~~python
 >>> import base58
 >>> from hdwallets import BIP32, HARDENED_INDEX
 >>> bip32 = BIP32.from_seed(bytes.fromhex("01"))
@@ -34,13 +37,13 @@ b'\x04\x88\xb2\x1e\x04\xf4p\xd4>\x00\x00\x00+h\xcf\xc2\xd1\xbe\x0c\\-:\x9fpDy\\x
 b'\x04\x88\xb2\x1e\x04\xf4p\xd4>\x00\x00\x00+h\xcf\xc2\xd1\xbe\x0c\\-:\x9fpDy\\x\xd5E\xc1\x988\xb1\xe2X\xd1\xba\xb1\xeac\x96\xb04\x8f\x02\xaf?<\xbe>\x92\xcc\xc1fq~\xa9\xcd\xcb\x10\xd5\x15]K\xd6\x10+\xdb\xa8\xb4\xedo\xd2hc\xf9x'
 >>> bip32.get_pubkey_from_path("m/1/1/1/1/1/1/1/1/1/1/1")
 b'\x02\x0c\xac\n\xa8\x06\x96C\x8e\x9b\xcf\x83]\x0c\rCm\x06\x1c\xe9T\xealo\xa2\xdf\x195\xebZ\x9b\xb8\x9e'
-```
+~~~
 
 ## Installation
 
-```
+~~~
 pip install hdwallets
-```
+~~~
 
 ## Interface
 
@@ -50,20 +53,20 @@ All `path` below are a list of integers representing the index of the key at eac
 
 #### BIP32
 
-##### from_seed(seed)
+##### from\_seed(seed)
 
 __*staticmethod*__
 
 Instantiate from a raw seed (as `bytes`). See [bip-0032's master key
-generation](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#master-key-generation).
+generation](<https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#master-key-generation>).
 
-##### from_xpriv(xpriv)
+##### from\_xpriv(xpriv)
 
 __*staticmethod*__
 
 Instantiate with an encoded serialized extended private key (as `str`) as master.
 
-##### from_xpub(xpub)
+##### from\_xpub(xpub)
 
 __*staticmethod*__
 
@@ -71,45 +74,40 @@ Instantiate with an encoded serialized extended public key (as `str`) as master.
 
 You'll only be able to derive unhardened public keys.
 
-##### get_extended_privkey_from_path(path)
+##### get\_extended\_privkey\_from\_path(path)
 
 Returns `(chaincode (bytes), privkey (bytes))` of the private key pointed by the path.
 
-##### get_privkey_from_path(path)
+##### get\_privkey\_from\_path(path)
 
 Returns `privkey (bytes)`, the private key pointed by the path.
 
-##### get_extended_pubkey_from_path(path)
+##### get\_extended\_pubkey\_from\_path(path)
 
 Returns `(chaincode (bytes), pubkey (bytes))` of the public key pointed by the path.
 
-Note that you don't need to have provided the master private key if the path doesn't
-include an index `>= HARDENED_INDEX`.
+Note that you don't need to have provided the master private key if the path doesn't include an index `>= HARDENED_INDEX`.
 
-##### get_pubkey_from_path(path)
+##### get\_pubkey\_from\_path(path)
 
 Returns `pubkey (bytes)`, the public key pointed by the path.
 
-Note that you don't need to have provided the master private key if the path doesn't
-include an index `>= HARDENED_INDEX`.
+Note that you don't need to have provided the master private key if the path doesn't include an index `>= HARDENED_INDEX`.
 
-##### get_xpriv_from_path(path)
+##### get\_xpriv\_from\_path(path)
 
-Returns `xpriv (str)` the serialized and encoded extended private key pointed by the given
-path.
+Returns `xpriv (str)` the serialized and encoded extended private key pointed by the given path.
 
-##### get_xpub_from_path(path)
+##### get\_xpub\_from\_path(path)
 
-Returns `xpub (str)` the serialized and encoded extended public key pointed by the given
-path.
+Returns `xpub (str)` the serialized and encoded extended public key pointed by the given path.
 
-Note that you don't need to have provided the master private key if the path doesn't
-include an index `>= HARDENED_INDEX`.
+Note that you don't need to have provided the master private key if the path doesn't include an index `>= HARDENED_INDEX`.
 
-##### get_master_xpriv(path)
+##### get\_master\_xpriv(path)
 
 Equivalent to `get_xpriv_from_path([])`.
 
-##### get_master_xpub(path)
+##### get\_master\_xpub(path)
 
 Equivalent to `get_xpub_from_path([])`.
