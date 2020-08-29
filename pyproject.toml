@@ -1,6 +1,6 @@
 [build-system]
-requires = ["poetry>=1.0.10"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry]
@@ -29,11 +29,11 @@ include = ["hdwallets/py.typed"]
 
 [tool.poetry.dependencies]
 python = "^3.6"
-ecdsa = ">=0.14.0, <0.16.0"
+ecdsa = ">=0.14.0, <0.17.0"
 
 [tool.poetry.dev-dependencies]
 # Tests
-pytest = ">=6.0.0rc1"
+pytest = "*"
 pytest-randomly = "*"
 base58 = ">=2.0.0"
 
@@ -67,5 +67,5 @@ profile = "black"
 
 
 [tool.pytest.ini_options]
-addopts = "--strict-markers"
+addopts = "--strict-markers --strict-config"
 xfail_strict = true
