@@ -34,6 +34,7 @@ ecdsa = ">=0.14.0, <0.17.0"
 [tool.poetry.dev-dependencies]
 # Tests
 pytest = "*"
+pytest-cov = "*"
 pytest-randomly = "*"
 base58 = ">=2.0.0"
 

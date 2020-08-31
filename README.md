@@ -1,5 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/hdwallets.svg)](<https://badge.fury.io/py/hdwallets>)
 [![Build Status](https://github.com/hukkinj1/hdwallets/workflows/Tests/badge.svg?branch=master)](<https://github.com/hukkinj1/hdwallets/actions?query=workflow%3ATests+branch%3Amaster+event%3Apush>)
+[![codecov.io](https://codecov.io/gh/hukkinj1/hdwallets/branch/master/graph/badge.svg)](<https://codecov.io/gh/hukkinj1/hdwallets>)
 
 # hdwallets
 
