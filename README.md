@@ -1,6 +1,6 @@
-[![PyPI version](https://badge.fury.io/py/hdwallets.svg)](<https://badge.fury.io/py/hdwallets>)
-[![Build Status](https://github.com/hukkinj1/hdwallets/workflows/Tests/badge.svg?branch=master)](<https://github.com/hukkinj1/hdwallets/actions?query=workflow%3ATests+branch%3Amaster+event%3Apush>)
-[![codecov.io](https://codecov.io/gh/hukkinj1/hdwallets/branch/master/graph/badge.svg)](<https://codecov.io/gh/hukkinj1/hdwallets>)
+[![PyPI version](<https://badge.fury.io/py/hdwallets.svg>)](<https://badge.fury.io/py/hdwallets>)
+[![Build Status](<https://github.com/hukkinj1/hdwallets/workflows/Tests/badge.svg?branch=master>)](<https://github.com/hukkinj1/hdwallets/actions?query=workflow%3ATests+branch%3Amaster+event%3Apush>)
+[![codecov.io](<https://codecov.io/gh/hukkinj1/hdwallets/branch/master/graph/badge.svg>)](<https://codecov.io/gh/hukkinj1/hdwallets>)
 
 # hdwallets
 
@@ -15,7 +15,7 @@ A fork of https://github.com/darosior/python-bip32 with some notable changes:
 
 ## Usage
 
-~~~python
+```python
 >>> import base58
 >>> from hdwallets import BIP32, HARDENED_INDEX
 >>> bip32 = BIP32.from_seed(bytes.fromhex("01"))
@@ -38,13 +38,13 @@ b'\x04\x88\xb2\x1e\x04\xf4p\xd4>\x00\x00\x00+h\xcf\xc2\xd1\xbe\x0c\\-:\x9fpDy\\x
 b'\x04\x88\xb2\x1e\x04\xf4p\xd4>\x00\x00\x00+h\xcf\xc2\xd1\xbe\x0c\\-:\x9fpDy\\x\xd5E\xc1\x988\xb1\xe2X\xd1\xba\xb1\xeac\x96\xb04\x8f\x02\xaf?<\xbe>\x92\xcc\xc1fq~\xa9\xcd\xcb\x10\xd5\x15]K\xd6\x10+\xdb\xa8\xb4\xedo\xd2hc\xf9x'
 >>> bip32.get_pubkey_from_path("m/1/1/1/1/1/1/1/1/1/1/1")
 b'\x02\x0c\xac\n\xa8\x06\x96C\x8e\x9b\xcf\x83]\x0c\rCm\x06\x1c\xe9T\xealo\xa2\xdf\x195\xebZ\x9b\xb8\x9e'
-~~~
+```
 
 ## Installation
 
-~~~
+```
 pip install hdwallets
-~~~
+```
 
 ## Interface
 
