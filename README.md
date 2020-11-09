@@ -1,17 +1,17 @@
-[![PyPI version](<https://badge.fury.io/py/hdwallets.svg>)](<https://badge.fury.io/py/hdwallets>)
-[![Build Status](<https://github.com/hukkinj1/hdwallets/workflows/Tests/badge.svg?branch=master>)](<https://github.com/hukkinj1/hdwallets/actions?query=workflow%3ATests+branch%3Amaster+event%3Apush>)
-[![codecov.io](<https://codecov.io/gh/hukkinj1/hdwallets/branch/master/graph/badge.svg>)](<https://codecov.io/gh/hukkinj1/hdwallets>)
+[![PyPI version](https://badge.fury.io/py/hdwallets.svg)](https://badge.fury.io/py/hdwallets)
+[![Build Status](https://github.com/hukkinj1/hdwallets/workflows/Tests/badge.svg?branch=master)](https://github.com/hukkinj1/hdwallets/actions?query=workflow%3ATests+branch%3Amaster+event%3Apush)
+[![codecov.io](https://codecov.io/gh/hukkinj1/hdwallets/branch/master/graph/badge.svg)](https://codecov.io/gh/hukkinj1/hdwallets)
 
 # hdwallets
 
-A basic implementation of the [BIP32](<https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki>) specification for hierarchical deterministic wallets.
+A basic implementation of the [BIP32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) specification for hierarchical deterministic wallets.
 
 A fork of https://github.com/darosior/python-bip32 with some notable changes:
 
-- [`base58`](<https://pypi.org/project/base58/>) dependency removed.
+- [`base58`](https://pypi.org/project/base58/) dependency removed.
   All interfaces input and output raw bytes instead of base58 strings.
-- Replaced [`coincurve`](<https://pypi.org/project/coincurve/>) dependency with [`ecdsa`](<https://pypi.org/project/ecdsa/>)
-- Distributes type information ([PEP 561](<https://www.python.org/dev/peps/pep-0561/>))
+- Replaced [`coincurve`](https://pypi.org/project/coincurve/) dependency with [`ecdsa`](https://pypi.org/project/ecdsa/)
+- Distributes type information ([PEP 561](https://www.python.org/dev/peps/pep-0561/))
 
 ## Usage
 
@@ -42,7 +42,7 @@ b'\x02\x0c\xac\n\xa8\x06\x96C\x8e\x9b\xcf\x83]\x0c\rCm\x06\x1c\xe9T\xealo\xa2\xd
 
 ## Installation
 
-```
+```sh
 pip install hdwallets
 ```
 
@@ -58,8 +58,8 @@ All `path` below are a list of integers representing the index of the key at eac
 
 __*staticmethod*__
 
-Instantiate from a raw seed (as `bytes`). See [bip-0032's master key
-generation](<https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#master-key-generation>).
+Instantiate from a raw seed (as `bytes`). See
+[bip-0032's master key generation](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#master-key-generation).
 
 ##### from\_xpriv(xpriv)
 

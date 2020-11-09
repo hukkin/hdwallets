@@ -1,16 +1,16 @@
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: e1668fe86af3810fbca72b8653fe478e66a0afdc  # frozen: v3.2.0
+  rev: 9136088a246768144165fcc3ecc3d31bb686920a  # frozen: v3.3.0
   hooks:
   - id: check-yaml
   - id: check-toml
 - repo: https://github.com/pre-commit/pygrep-hooks
-  rev: eae6397e4c259ed3d057511f6dd5330b92867e62  # frozen: v1.6.0
+  rev: 4f4c0a4cda27980be153cca2cb7710c9fec57ba3  # frozen: v1.7.0
   hooks:
   - id: python-use-type-annotations
   - id: python-check-blanket-noqa
 - repo: https://github.com/timothycrosley/isort
-  rev: 2e02c195afdb499be9068ca0d08c9d7d45912d4d  # frozen: 5.5.4
+  rev: 6bb47b7acc1554ecb59d2855e9110c447162f674  # frozen: 5.6.4
   hooks:
   - id: isort
 - repo: https://github.com/psf/black
@@ -30,6 +30,6 @@ repos:
   hooks:
   - id: docformatter
 - repo: https://github.com/hukkinj1/mdformat
-  rev: 01c43e0d023cff146d1fbb8eddb5d0d62b8787d3  # frozen: 0.3.3
+  rev: 80404251e36bffe9518d41a3525bf8570266f7b1  # frozen: 0.5.0
   hooks:
   - id: mdformat

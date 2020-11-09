@@ -1,6 +1,6 @@
 import hashlib
 import hmac
-from typing import Sequence, Tuple, Union
+from typing import Optional, Sequence, Tuple, Union
 
 from ._utils import (
     _deriv_path_str_to_list,
@@ -17,9 +17,9 @@ class BIP32:
     def __init__(
         self,
         chaincode: bytes,
-        privkey: bytes = None,
-        pubkey: bytes = None,
-        fingerprint: bytes = None,
+        privkey: Optional[bytes] = None,
+        pubkey: Optional[bytes] = None,
+        fingerprint: Optional[bytes] = None,
         depth: int = 0,
         index: int = 0,
         network: str = "main",

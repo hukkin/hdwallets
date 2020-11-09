@@ -22,7 +22,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Installation (deps and package)
       run: |
-        pip install "poetry==1.1.2"
+        pip install "poetry==1.1.4"
         poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
     - name: Linters
       if: matrix.python-version == '3.6'
@@ -37,4 +37,4 @@ jobs:
         pytest --cov
     - name: Report coverage
       if: matrix.python-version == '3.6'
-      uses: codecov/codecov-action@v1.0.13
+      uses: codecov/codecov-action@v1
