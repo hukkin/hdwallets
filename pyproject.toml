@@ -28,15 +28,15 @@ include = ["hdwallets/py.typed"]
 "Changelog" = "https://github.com/hukkinj1/hdwallets/blob/master/CHANGELOG.md"
 
 [tool.poetry.dependencies]
-python = "^3.6"
-ecdsa = ">=0.14.0, <0.17.0"
+python = ">=3.6"
+ecdsa = ">=0.14.0"
 
 [tool.poetry.dev-dependencies]
 # Tests
 pytest = "*"
 pytest-cov = "*"
 pytest-randomly = "*"
-base58 = ">=2.0.0"
+base58 = "*"
 
 # Linting
 isort = "*"

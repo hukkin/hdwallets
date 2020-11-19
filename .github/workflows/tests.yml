@@ -3,6 +3,7 @@ name: Tests
 on:
   push:
     branches: [ master ]
+    tags: [ '*.*.*' ]
   pull_request:
     branches: [ master ]
 
@@ -38,3 +39,26 @@ jobs:
     - name: Report coverage
       if: matrix.python-version == '3.6'
       uses: codecov/codecov-action@v1
+
+  pypi-publish:
+    # Only publish if all other jobs succeed
+    needs:
+      - build
+    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install Poetry
+        run: |
+          pip install "poetry==1.1.4"
+      - name: Build and publish
+        run: |
+          # TODO: Remove the first command as soon as this Poetry bug is fixed: https://github.com/python-poetry/poetry/issues/2210
+          poetry config http-basic.pypi "__token__" "${POETRY_PYPI_TOKEN_PYPI}"
+          poetry build
+          poetry publish
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}

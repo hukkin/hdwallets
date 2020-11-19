@@ -30,6 +30,6 @@ repos:
   hooks:
   - id: docformatter
 - repo: https://github.com/hukkinj1/mdformat
-  rev: 80404251e36bffe9518d41a3525bf8570266f7b1  # frozen: 0.5.0
+  rev: 164fba9cb747cbd37191a3ee921712886140dcd9  # frozen: 0.5.3
   hooks:
   - id: mdformat
