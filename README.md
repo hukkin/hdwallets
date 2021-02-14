@@ -54,20 +54,20 @@ All `path` below are a list of integers representing the index of the key at eac
 
 #### BIP32
 
-##### from\_seed(seed)
+##### from_seed(seed)
 
 __*staticmethod*__
 
 Instantiate from a raw seed (as `bytes`). See
 [bip-0032's master key generation](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#master-key-generation).
 
-##### from\_xpriv(xpriv)
+##### from_xpriv(xpriv)
 
 __*staticmethod*__
 
 Instantiate with an encoded serialized extended private key (as `str`) as master.
 
-##### from\_xpub(xpub)
+##### from_xpub(xpub)
 
 __*staticmethod*__
 
@@ -75,40 +75,40 @@ Instantiate with an encoded serialized extended public key (as `str`) as master.
 
 You'll only be able to derive unhardened public keys.
 
-##### get\_extended\_privkey\_from\_path(path)
+##### get_extended_privkey_from_path(path)
 
 Returns `(chaincode (bytes), privkey (bytes))` of the private key pointed by the path.
 
-##### get\_privkey\_from\_path(path)
+##### get_privkey_from_path(path)
 
 Returns `privkey (bytes)`, the private key pointed by the path.
 
-##### get\_extended\_pubkey\_from\_path(path)
+##### get_extended_pubkey_from_path(path)
 
 Returns `(chaincode (bytes), pubkey (bytes))` of the public key pointed by the path.
 
 Note that you don't need to have provided the master private key if the path doesn't include an index `>= HARDENED_INDEX`.
 
-##### get\_pubkey\_from\_path(path)
+##### get_pubkey_from_path(path)
 
 Returns `pubkey (bytes)`, the public key pointed by the path.
 
 Note that you don't need to have provided the master private key if the path doesn't include an index `>= HARDENED_INDEX`.
 
-##### get\_xpriv\_from\_path(path)
+##### get_xpriv_from_path(path)
 
 Returns `xpriv (str)` the serialized and encoded extended private key pointed by the given path.
 
-##### get\_xpub\_from\_path(path)
+##### get_xpub_from_path(path)
 
 Returns `xpub (str)` the serialized and encoded extended public key pointed by the given path.
 
 Note that you don't need to have provided the master private key if the path doesn't include an index `>= HARDENED_INDEX`.
 
-##### get\_master\_xpriv(path)
+##### get_master_xpriv(path)
 
 Equivalent to `get_xpriv_from_path([])`.
 
-##### get\_master\_xpub(path)
+##### get_master_xpub(path)
 
 Equivalent to `get_xpub_from_path([])`.

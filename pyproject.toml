@@ -28,7 +28,7 @@ include = ["hdwallets/py.typed"]
 "Changelog" = "https://github.com/hukkinj1/hdwallets/blob/master/CHANGELOG.md"
 
 [tool.poetry.dependencies]
-python = ">=3.6"
+python = ">=3.6.1"
 ecdsa = ">=0.14.0"
 
 [tool.poetry.dev-dependencies]
