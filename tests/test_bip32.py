@@ -1,8 +1,9 @@
 import os
 
 import base58
+import pytest
 
-from hdwallets import BIP32, HARDENED_INDEX
+from hdwallets import BIP32, HARDENED_INDEX, _utils
 
 
 def test_vector_1():
@@ -93,7 +94,7 @@ def test_vector_3():
     # fmt: on
 
 
-def test_sanity_tests():
+def test_sanity_checks():
     # fmt: off
     seed = bytes.fromhex("1077a46dc8545d372f22d9e110ae6c5c2bf7620fe9c4c911f5404d112233e1aa270567dd3554092e051ba3ba86c303590b0309116ac89964ff284db2219d7511")
     first_bip32 = BIP32.from_seed(seed)
@@ -153,4 +154,17 @@ def test_sanity_tests():
                            "main").get_master_xpub().startswith(b"\x04\x88\xB2\x1E")
     assert BIP32.from_seed(os.urandom(32),
                            "main").get_master_xpriv().startswith(b"\x04\x88\xAD\xE4")
+
+    # We can get the keys from "m" or []
+    bip32 = BIP32.from_seed(os.urandom(32))
+    assert (bip32.get_master_xpub() == bip32.get_xpub_from_path("m") ==
+            bip32.get_xpub_from_path([]))
+    assert (bip32.get_master_xpriv() == bip32.get_xpriv_from_path("m") ==
+            bip32.get_xpriv_from_path([]))
+    master_non_extended_pubkey = bip32.get_privkey_from_path("m")
+    pubkey = _utils._privkey_to_pubkey(master_non_extended_pubkey)
+    assert pubkey == bip32.get_pubkey_from_path("m")
+    # But getting from "m'" does not make sense
+    with pytest.raises(ValueError, match="invalid format"):
+        bip32.get_pubkey_from_path("m'")
     # fmt: on
