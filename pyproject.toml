@@ -28,8 +28,9 @@ include = ["hdwallets/py.typed"]
 "Changelog" = "https://github.com/hukkinj1/hdwallets/blob/master/CHANGELOG.md"
 
 [tool.poetry.dependencies]
-python = ">=3.6.1"
+python = ">=3.7"
 ecdsa = ">=0.14.0"
+typing-extensions= { version = "*", python = "<3.8" }
 
 [tool.poetry.dev-dependencies]
 # Tests

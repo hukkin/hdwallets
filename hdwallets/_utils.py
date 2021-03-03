@@ -1,9 +1,13 @@
+from __future__ import annotations
+
+from collections.abc import Iterable
 import hashlib
 import hmac
 import re
-from typing import Iterable, List, Optional, Tuple
 
 import ecdsa
+
+from . import _typing
 
 CURVE_GEN = ecdsa.ecdsa.generator_secp256k1
 CURVE_ORDER = CURVE_GEN.order()
@@ -28,7 +32,7 @@ def _privkey_to_pubkey(privkey: bytes) -> bytes:
 
 def _derive_private_child(
     privkey: bytes, chaincode: bytes, index: int
-) -> Tuple[bytes, bytes]:
+) -> tuple[bytes, bytes]:
     """A.k.a CKDpriv, in bip-0032.
 
     :param privkey: The parent's private key, as bytes
@@ -66,7 +70,7 @@ def _derive_private_child(
 
 def _derive_public_child(
     pubkey: bytes, chaincode: bytes, index: int
-) -> Tuple[bytes, bytes]:
+) -> tuple[bytes, bytes]:
     """A.k.a CKDpub, in bip-0032.
 
     :param pubkey: The parent's (compressed) public key, as bytes
@@ -113,7 +117,7 @@ def _pubkey_to_fingerprint(pubkey: bytes) -> bytes:
 def _serialize_extended_key(
     key: bytes,
     depth: int,
-    parent: Optional[bytes],
+    parent: bytes | None,
     index: int,
     chaincode: bytes,
     network: str = "main",
@@ -158,7 +162,7 @@ def _serialize_extended_key(
 
 def _unserialize_extended_key(
     extended_key: bytes,
-) -> Tuple[str, int, bytes, int, bytes, bytes]:
+) -> tuple[_typing.Network, int, bytes, int, bytes, bytes]:
     """Unserialize an extended private *OR* public key, as spec by bip-0032.
 
     :param extended_key: The extended key to unserialize __as bytes__
@@ -169,7 +173,7 @@ def _unserialize_extended_key(
     assert len(extended_key) == 78
     prefix = int.from_bytes(extended_key[:4], "big")
     if prefix in ENCODING_PREFIX["main"].values():
-        network = "main"
+        network: _typing.Network = "main"
     else:
         network = "test"
     depth = extended_key[4]
@@ -183,7 +187,7 @@ def _hardened_index_in_path(path: Iterable[int]) -> bool:
     return any(i & HARDENED_INDEX for i in path)
 
 
-def _deriv_path_str_to_list(strpath: str) -> List[int]:
+def _deriv_path_str_to_list(strpath: str) -> list[int]:
     """Converts a derivation path as string to a list of integers (index of
     each depth)
 
