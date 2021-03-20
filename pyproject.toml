@@ -38,6 +38,9 @@ pytest = "*"
 pytest-cov = "*"
 pytest-randomly = "*"
 base58 = "*"
+# This is a dependency of pytest-cov that we list explicitly because we
+# want the "toml" extra for pyproject.toml support.
+coverage = { version = "*", extras = ["toml"] }
 
 # Linting
 isort = "*"
@@ -71,3 +74,7 @@ profile = "black"
 [tool.pytest.ini_options]
 addopts = "--strict-markers --strict-config"
 xfail_strict = true
+
+
+[tool.coverage.run]
+omit = ["tests/*", "*/site-packages/*"]
