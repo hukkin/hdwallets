@@ -38,9 +38,6 @@ pytest = "*"
 pytest-cov = "*"
 pytest-randomly = "*"
 base58 = "*"
-# This is a dependency of pytest-cov that we list explicitly because we
-# want the "toml" extra for pyproject.toml support.
-coverage = { version = "*", extras = ["toml"] }
 
 # Linting
 isort = "*"
@@ -78,3 +75,22 @@ xfail_strict = true
 
 [tool.coverage.run]
 omit = ["tests/*", "*/site-packages/*"]
+
+
+[tool.mypy]
+show_error_codes = true
+warn_unreachable = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+# Disabling incremental mode is required for `warn_unused_configs = true` to work
+incremental = false
+disallow_untyped_defs = true
+check_untyped_defs = true
+strict_equality = true
+implicit_reexport = false
+no_implicit_optional = true
+overrides = [
+    { module = "tests.*", disallow_untyped_defs = false },
+    { module = "ecdsa.*", ignore_missing_imports = true },
+]
