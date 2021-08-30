@@ -6,9 +6,9 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "hdwallets"
 version = "0.1.2"  # DO NOT EDIT THIS LINE MANUALLY. LET bump2version UTILITY DO IT
-authors = ["hukkinj1 <hukkinj1@users.noreply.github.com>"]
+authors = ["hukkin <hukkin@users.noreply.github.com>"]
 description = "Python implementation of the BIP32 key derivation scheme"
-repository = "https://github.com/hukkinj1/hdwallets"
+repository = "https://github.com/hukkin/hdwallets"
 readme = "README.md"
 license = "BSD-3-Clause"
 classifiers = [
@@ -25,7 +25,7 @@ packages = [
 include = ["hdwallets/py.typed"]
 
 [tool.poetry.urls]
-"Changelog" = "https://github.com/hukkinj1/hdwallets/blob/master/CHANGELOG.md"
+"Changelog" = "https://github.com/hukkin/hdwallets/blob/master/CHANGELOG.md"
 
 [tool.poetry.dependencies]
 python = ">=3.7"
