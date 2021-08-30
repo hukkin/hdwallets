@@ -53,6 +53,9 @@ docformatter = "*"
 bump2version = "*"
 pre-commit = "*"
 
+[tool.poetry.build]
+generate-setup-file = false
+
 
 [tool.isort]
 skip = ["venv"]
