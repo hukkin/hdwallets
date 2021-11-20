@@ -1,16 +1,17 @@
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["flit_core>=3.2.0,<4"]
+build-backend = "flit_core.buildapi"
 
-
-[tool.poetry]
+[project]
 name = "hdwallets"
 version = "0.1.2"  # DO NOT EDIT THIS LINE MANUALLY. LET bump2version UTILITY DO IT
-authors = ["hukkin <hukkin@users.noreply.github.com>"]
 description = "Python implementation of the BIP32 key derivation scheme"
-repository = "https://github.com/hukkin/hdwallets"
+authors = [
+    { name = "Taneli Hukkinen", email = "hukkin@users.noreply.github.com" },
+]
+license = { file = "LICENSE" }
+requires-python = ">=3.7"
 readme = "README.md"
-license = "BSD-3-Clause"
 classifiers = [
     "Intended Audience :: Developers",
     "Natural Language :: English",
@@ -18,43 +19,14 @@ classifiers = [
     "Typing :: Typed",
 ]
 keywords = ["bip32", "hierarchical", "deterministic", "wallets", "bitcoin"]
-
-packages = [
-    {include = "hdwallets"},
+dependencies = [
+  "ecdsa >=0.14.0",
+  "typing-extensions; python_version < '3.8'",
 ]
-include = ["hdwallets/py.typed"]
 
-[tool.poetry.urls]
+[project.urls]
+"Homepage" = "https://github.com/hukkin/hdwallets"
 "Changelog" = "https://github.com/hukkin/hdwallets/blob/master/CHANGELOG.md"
-
-[tool.poetry.dependencies]
-python = ">=3.7"
-ecdsa = ">=0.14.0"
-typing-extensions= { version = "*", python = "<3.8" }
-
-[tool.poetry.dev-dependencies]
-# Tests
-pytest = "*"
-pytest-cov = "*"
-pytest-randomly = "*"
-base58 = "*"
-
-# Linting
-isort = "*"
-black = { version = "*", allow-prereleases = true }
-flake8 = "*"
-flake8-bugbear = "*"
-flake8-builtins = "*"
-flake8-comprehensions = "*"
-mypy = "*"
-docformatter = "*"
-
-# Tools
-bump2version = "*"
-pre-commit = "*"
-
-[tool.poetry.build]
-generate-setup-file = false
 
 
 [tool.isort]

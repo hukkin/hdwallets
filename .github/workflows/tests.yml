@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10-dev']
-    continue-on-error: ${{ matrix.python-version == '3.10-dev' }}
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11-dev']
+    continue-on-error: ${{ matrix.python-version == '3.11-dev' }}
 
     steps:
     - uses: actions/checkout@v2
@@ -24,23 +24,18 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Installation (deps and package)
       run: |
-        pip install "poetry==1.1.8"
-        poetry config virtualenvs.create false
-        poetry install --no-interaction --no-ansi
+        pip install . -r tests/requirements.txt
     - name: Linters
       if: matrix.python-version == '3.7'
       run: |
-        flake8 .
-        mypy .
-        isort --check-only .
-        black --check .
-        docformatter --recursive --check hdwallets/ tests/
+        pip install pre-commit
+        pre-commit run -a
     - name: Test with pytest
       run: |
         pytest --cov
     - name: Report coverage
       if: matrix.python-version == '3.7'
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v2
 
   pypi-publish:
     # Only publish if all other jobs succeed
