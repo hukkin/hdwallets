@@ -10,11 +10,11 @@ repos:
   - id: python-use-type-annotations
   - id: python-check-blanket-noqa
 - repo: https://github.com/timothycrosley/isort
-  rev: fd5ba70665a37ec301a1f714ed09336048b3be63  # frozen: 5.9.3
+  rev: c5e8fa75dda5f764d20f66a215d71c21cfa198e1  # frozen: 5.10.1
   hooks:
   - id: isort
 - repo: https://github.com/psf/black
-  rev: a8b4665e7d6eb945c47820adb1a3f8b006adce0c  # frozen: 21.8b0
+  rev: 19f6aa8208154de4560ee1e4a3e638e120dcdba5  # frozen: 21.11b1
   hooks:
   - id: black
 - repo: https://gitlab.com/pycqa/flake8
@@ -30,6 +30,14 @@ repos:
   hooks:
   - id: docformatter
 - repo: https://github.com/executablebooks/mdformat
-  rev: a8c92e41c6d03dd9b131d3a330a65bc286f61ebc  # frozen: 0.7.9
+  rev: 427df9181bd4d8e65c1108b912ad47a81628f03b  # frozen: 0.7.10
   hooks:
   - id: mdformat
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: 5cf22ccb774a8be8f47dfe4c1e8c4f177c608cbf  # frozen: v0.910-1
+  hooks:
+  - id: mypy
+    args: ["--scripts-are-modules"]
+    additional_dependencies:
+    - pytest
+    - base58
